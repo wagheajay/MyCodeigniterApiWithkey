@@ -26,14 +26,7 @@ class Api_model extends CI_Model
   {
 
     $query = $this->db->get('flowers');
-
-    if ($query->num_rows() == 0) {
-
-      echo ("Nothing Found...");
-    } elseif ($query->num_rows() > 0) {
-
-      echo json_encode($query->result());
-    }
+    return $query->result();
   }
 
   public function get_flower_by_id($id){
@@ -41,14 +34,25 @@ class Api_model extends CI_Model
     $this->db->where('id',$id);
     $query = $this->db->get('flowers');
     return $query->row();
+    
 
   }
 
   public function delete_flower_by_id($id){
            
-    $this->db->where('id',$id);
-    $query = $this->db->delete('flowers');
-    return true;
+    $check_id_exist = $this->db->get_where('flowers', array('id' => $id));
+    
+    if($check_id_exist->num_rows() > 0){
+
+       $this->db->where('id',$id);
+       $query = $this->db->delete('flowers');
+       return $query;
+    }
+    else{
+
+         echo 'Not found';
+
+    }
 
   }
 }
