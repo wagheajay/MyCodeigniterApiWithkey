@@ -29,6 +29,13 @@ class Api_model extends CI_Model
     return $query->result();
   }
 
+  public function create_flower($data)
+  {
+
+    $query = $this->db->insert('flowers',$data);
+    return $query;
+  }
+
   public function get_flower_by_id($id){
            
     $this->db->where('id',$id);
